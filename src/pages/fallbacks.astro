@@ -1,0 +1,237 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { font } from 'astro:font';
+
+// Font with system fallback
+const montserrat = font({
+	family: 'Montserrat',
+	source: 'google',
+	weight: [400, 700],
+	fallback: ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+});
+
+// Font with similar metrics fallback
+const sourceSerif = font({
+	family: 'Source Serif 4',
+	source: 'google',
+	weight: [400, 700],
+	fallback: ['Georgia', 'Cambria', 'Times New Roman', 'serif'],
+});
+---
+
+<Layout title="Font Fallbacks - Astro Font API">
+	<main>
+		<a href="/" class="back-link">← Back to Home</a>
+		
+		<h1>Font Fallback Strategies</h1>
+		
+		<section>
+			<h2>Why Fallbacks Matter</h2>
+			<p>
+				Fallback fonts ensure your content is readable even before web fonts load.
+				Well-chosen fallbacks minimize layout shift (CLS) and improve perceived performance.
+			</p>
+		</section>
+		
+		<section>
+			<h2>System UI Fallback Stack</h2>
+			<p class:list={[montserrat.class]}>
+				<strong>Montserrat with system-ui fallback</strong><br/>
+				This uses the system's default sans-serif font as a fallback.
+				On macOS, that's San Francisco. On Windows, it's Segoe UI.
+				On Android, it's Roboto.
+			</p>
+			<p class:list={[montserrat.class]} style="font-weight: 700;">
+				The benefit: Fallback fonts are already installed, so they load instantly with zero flash.
+			</p>
+		</section>
+		
+		<section>
+			<h2>Metrics-Matched Fallback</h2>
+			<p class:list={[sourceSerif.class]}>
+				<strong>Source Serif 4 with Georgia fallback</strong><br/>
+				Georgia has similar x-height and character width to Source Serif,
+				which minimizes layout shift when the web font loads.
+				Choosing fallbacks with similar metrics is crucial for good UX.
+			</p>
+			<p class:list={[sourceSerif.class]} style="font-weight: 700;">
+				Test your fallbacks: Disable web fonts and see if your layout breaks!
+			</p>
+		</section>
+		
+		<section>
+			<h2>Fallback Stack Best Practices</h2>
+			<ul>
+				<li>
+					<strong>1. Match font category:</strong> Sans for sans, serif for serif, mono for mono
+				</li>
+				<li>
+					<strong>2. Match x-height:</strong> Choose fallbacks with similar letter proportions
+				</li>
+				<li>
+					<strong>3. System fonts first:</strong> They're already on the device
+				</li>
+				<li>
+					<strong>4. End with generic:</strong> Always end with 'sans-serif', 'serif', etc.
+				</li>
+				<li>
+					<strong>5. Test without web fonts:</strong> See what users see while loading
+				</li>
+			</ul>
+		</section>
+		
+		<section>
+			<h2>Common Fallback Stacks</h2>
+			<div class="stacks">
+				<div class="stack">
+					<h3>Modern Sans-Serif</h3>
+					<code>system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif</code>
+				</div>
+				
+				<div class="stack">
+					<h3>Traditional Serif</h3>
+					<code>Georgia, Cambria, 'Times New Roman', Times, serif</code>
+				</div>
+				
+				<div class="stack">
+					<h3>Monospace</h3>
+					<code>'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, monospace</code>
+				</div>
+				
+				<div class="stack">
+					<h3>Humanist Sans</h3>
+					<code>'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif</code>
+				</div>
+			</div>
+		</section>
+		
+		<section>
+			<h2>Testing Fallbacks</h2>
+			<p>
+				To test your fallback fonts, you can:
+			</p>
+			<ol>
+				<li>Throttle network to simulate slow connections</li>
+				<li>Disable web fonts in DevTools</li>
+				<li>Use font-display: swap and reload</li>
+				<li>Check layout shift metrics in Lighthouse</li>
+			</ol>
+		</section>
+		
+		<section>
+			<h2>Code Example</h2>
+			<pre><code>import &#123; font &#125; from 'astro:font';
+
+const myFont = font(&#123;
+  family: 'Montserrat',
+  source: 'google',
+  weight: [400, 700],
+  fallback: [
+    'system-ui',
+    '-apple-system',
+    'BlinkMacSystemFont',
+    'Segoe UI',
+    'sans-serif'
+  ],
+  display: 'swap', // Show fallback while loading
+&#125;);</code></pre>
+		</section>
+	</main>
+</Layout>
+
+<style>
+	main {
+		max-width: 900px;
+		margin: 0 auto;
+		padding: 2rem;
+	}
+	
+	.back-link {
+		display: inline-block;
+		margin-bottom: 2rem;
+		color: #0066cc;
+		text-decoration: none;
+	}
+	
+	section {
+		margin: 3rem 0;
+		padding: 2rem;
+		background: #f9f9f9;
+		border-radius: 0.5rem;
+	}
+	
+	h1 {
+		font-size: 2.5rem;
+		margin-bottom: 2rem;
+	}
+	
+	h2 {
+		font-size: 1.5rem;
+		margin-bottom: 1rem;
+		color: #555;
+	}
+	
+	h3 {
+		font-size: 1.125rem;
+		margin-bottom: 0.5rem;
+		color: #666;
+	}
+	
+	p, li {
+		font-size: 1.125rem;
+		line-height: 1.6;
+		margin: 1rem 0;
+	}
+	
+	ul, ol {
+		margin: 1.5rem 0;
+		padding-left: 2rem;
+	}
+	
+	li {
+		margin: 0.75rem 0;
+	}
+	
+	.stacks {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		gap: 1.5rem;
+		margin: 1.5rem 0;
+	}
+	
+	.stack {
+		background: white;
+		padding: 1.5rem;
+		border-radius: 0.5rem;
+		border: 1px solid #ddd;
+	}
+	
+	.stack code {
+		display: block;
+		background: #f5f5f5;
+		padding: 1rem;
+		border-radius: 0.25rem;
+		font-size: 0.875rem;
+		line-height: 1.5;
+		margin-top: 0.5rem;
+		word-break: break-all;
+	}
+	
+	pre {
+		background: #2d2d2d;
+		color: #f8f8f2;
+		padding: 1.5rem;
+		border-radius: 0.5rem;
+		overflow-x: auto;
+		font-size: 0.875rem;
+		line-height: 1.5;
+	}
+	
+	pre code {
+		font-family: 'Courier New', monospace;
+		background: none;
+		padding: 0;
+		display: inline;
+		color: inherit;
+	}
+</style>

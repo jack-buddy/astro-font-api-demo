@@ -1,0 +1,226 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { font } from 'astro:font';
+
+// Font with display swap for better performance
+const lora = font({
+	family: 'Lora',
+	source: 'google',
+	weight: [400, 700],
+	display: 'swap', // Show fallback immediately, swap when loaded
+});
+
+// Font with preload for critical text
+const poppins = font({
+	family: 'Poppins',
+	source: 'google',
+	weight: [600, 700],
+	preload: true, // Preload for faster initial render
+});
+
+// Font with subset for specific characters (lighter download)
+const notoSans = font({
+	family: 'Noto Sans',
+	source: 'google',
+	weight: 400,
+	subset: ['latin', 'latin-ext'], // Only include Latin characters
+});
+
+// Font with fallback specification
+const merriweather = font({
+	family: 'Merriweather',
+	source: 'google',
+	weight: [400, 700],
+	fallback: ['Georgia', 'serif'], // Fallback fonts while loading
+});
+---
+
+<Layout title="Custom Configuration - Astro Font API">
+	<main>
+		<a href="/" class="back-link">← Back to Home</a>
+		
+		<h1>Custom Font Configuration</h1>
+		
+		<section>
+			<h2>Display: Swap (Better Performance)</h2>
+			<p class:list={[lora.class]}>
+				<strong>Lora with display: 'swap'</strong><br/>
+				The text appears immediately with a fallback font, then swaps to Lora when loaded.
+				This prevents FOIT (Flash of Invisible Text) and improves perceived performance.
+			</p>
+			<p class:list={[lora.class]} style="font-weight: 700;">
+				Works great for body text where you want content visible ASAP.
+			</p>
+		</section>
+		
+		<section>
+			<h2>Preload: true (Critical Fonts)</h2>
+			<h3 class:list={[poppins.class]} style="font-weight: 600;">
+				Poppins with preload enabled
+			</h3>
+			<p class:list={[poppins.class]} style="font-weight: 700;">
+				Preloading tells the browser to fetch this font with high priority.
+				Perfect for headings and above-the-fold content.
+				Trade-off: Uses more initial bandwidth.
+			</p>
+		</section>
+		
+		<section>
+			<h2>Subset: Optimized Downloads</h2>
+			<p class:list={[notoSans.class]}>
+				<strong>Noto Sans (Latin subset only)</strong><br/>
+				By specifying subsets, you only download the characters you need.
+				This example only includes Latin and Latin Extended characters,
+				significantly reducing file size if you don't need Cyrillic, Greek, etc.
+			</p>
+		</section>
+		
+		<section>
+			<h2>Custom Fallback Stack</h2>
+			<p class:list={[merriweather.class]}>
+				<strong>Merriweather with Georgia fallback</strong><br/>
+				Explicitly define fallback fonts that match your web font's metrics.
+				This minimizes layout shift when the web font loads.
+			</p>
+			<p class:list={[merriweather.class]} style="font-weight: 700;">
+				Bold variant maintains the same fallback stack.
+			</p>
+		</section>
+		
+		<section>
+			<h2>Configuration Options Summary</h2>
+			<table>
+				<thead>
+					<tr>
+						<th>Option</th>
+						<th>Purpose</th>
+						<th>When to Use</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><code>display</code></td>
+						<td>Control font rendering behavior</td>
+						<td>Use 'swap' for better UX</td>
+					</tr>
+					<tr>
+						<td><code>preload</code></td>
+						<td>Priority loading</td>
+						<td>Critical fonts only</td>
+					</tr>
+					<tr>
+						<td><code>subset</code></td>
+						<td>Reduce file size</td>
+						<td>When you know your character set</td>
+					</tr>
+					<tr>
+						<td><code>fallback</code></td>
+						<td>Specify fallback fonts</td>
+						<td>Minimize layout shift</td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
+		
+		<section>
+			<h2>Example Code</h2>
+			<pre><code>import &#123; font &#125; from 'astro:font';
+
+const optimizedFont = font(&#123;
+  family: 'Lora',
+  source: 'google',
+  weight: [400, 700],
+  display: 'swap',        // Show fallback first
+  preload: true,          // High priority
+  subset: ['latin'],      // Lighter download
+  fallback: ['Georgia'],  // Similar metrics
+&#125;);</code></pre>
+		</section>
+	</main>
+</Layout>
+
+<style>
+	main {
+		max-width: 900px;
+		margin: 0 auto;
+		padding: 2rem;
+	}
+	
+	.back-link {
+		display: inline-block;
+		margin-bottom: 2rem;
+		color: #0066cc;
+		text-decoration: none;
+	}
+	
+	section {
+		margin: 3rem 0;
+		padding: 2rem;
+		background: #f9f9f9;
+		border-radius: 0.5rem;
+	}
+	
+	h1 {
+		font-size: 2.5rem;
+		margin-bottom: 2rem;
+	}
+	
+	h2 {
+		font-size: 1.5rem;
+		margin-bottom: 1rem;
+		color: #555;
+	}
+	
+	h3 {
+		font-size: 1.25rem;
+		margin: 1rem 0;
+	}
+	
+	p {
+		font-size: 1.125rem;
+		line-height: 1.6;
+		margin: 1rem 0;
+	}
+	
+	table {
+		width: 100%;
+		border-collapse: collapse;
+		margin: 1.5rem 0;
+		background: white;
+	}
+	
+	th, td {
+		padding: 1rem;
+		text-align: left;
+		border-bottom: 1px solid #ddd;
+	}
+	
+	th {
+		background: #f0f0f0;
+		font-weight: 600;
+	}
+	
+	code {
+		background: #ffe7e7;
+		padding: 0.2rem 0.4rem;
+		border-radius: 0.25rem;
+		font-family: 'Courier New', monospace;
+		font-size: 0.9em;
+	}
+	
+	pre {
+		background: #2d2d2d;
+		color: #f8f8f2;
+		padding: 1.5rem;
+		border-radius: 0.5rem;
+		overflow-x: auto;
+		font-size: 0.875rem;
+		line-height: 1.5;
+	}
+	
+	pre code {
+		background: none;
+		padding: 0;
+		color: inherit;
+	}
+</style>

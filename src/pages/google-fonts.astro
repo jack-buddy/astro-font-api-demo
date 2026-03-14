@@ -1,0 +1,111 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Astro 6 Font API - Google Fonts
+import { font } from 'astro:font';
+
+// Basic Google Font
+const inter = font({
+	family: 'Inter',
+	source: 'google',
+});
+
+// Google Font with specific weights
+const playfair = font({
+	family: 'Playfair Display',
+	source: 'google',
+	weight: [400, 700, 900],
+});
+
+// Google Font with specific weights and styles
+const robotoMono = font({
+	family: 'Roboto Mono',
+	source: 'google',
+	weight: [400, 700],
+	style: ['normal', 'italic'],
+});
+---
+
+<Layout title="Google Fonts - Astro Font API">
+	<main>
+		<a href="/" class="back-link">← Back to Home</a>
+		
+		<h1>Google Fonts Examples</h1>
+		
+		<section>
+			<h2>Inter (Default weights)</h2>
+			<p class:list={[inter.class]}>
+				This text uses the Inter font from Google Fonts with default weights.
+				The Font API automatically optimizes loading and includes only the characters used on your site.
+			</p>
+		</section>
+		
+		<section>
+			<h2>Playfair Display (Specific weights: 400, 700, 900)</h2>
+			<p class:list={[playfair.class]} style="font-weight: 400;">
+				Regular weight (400) - An elegant serif font perfect for headings.
+			</p>
+			<p class:list={[playfair.class]} style="font-weight: 700;">
+				Bold weight (700) - Making statements with style.
+			</p>
+			<p class:list={[playfair.class]} style="font-weight: 900;">
+				Black weight (900) - Maximum impact typography.
+			</p>
+		</section>
+		
+		<section>
+			<h2>Roboto Mono (Multiple weights & styles)</h2>
+			<p class:list={[robotoMono.class]} style="font-weight: 400; font-style: normal;">
+				Regular monospace - Perfect for code snippets
+			</p>
+			<p class:list={[robotoMono.class]} style="font-weight: 400; font-style: italic;">
+				Regular italic - Emphasized code comments
+			</p>
+			<p class:list={[robotoMono.class]} style="font-weight: 700; font-style: normal;">
+				Bold monospace - Highlighted code
+			</p>
+			<p class:list={[robotoMono.class]} style="font-weight: 700; font-style: italic;">
+				Bold italic - Maximum emphasis in code
+			</p>
+		</section>
+	</main>
+</Layout>
+
+<style>
+	main {
+		max-width: 800px;
+		margin: 0 auto;
+		padding: 2rem;
+	}
+	
+	.back-link {
+		display: inline-block;
+		margin-bottom: 2rem;
+		color: #0066cc;
+		text-decoration: none;
+	}
+	
+	section {
+		margin: 3rem 0;
+		padding: 2rem;
+		background: #f9f9f9;
+		border-radius: 0.5rem;
+	}
+	
+	h1 {
+		font-size: 2.5rem;
+		margin-bottom: 2rem;
+	}
+	
+	h2 {
+		font-size: 1.5rem;
+		margin-bottom: 1rem;
+		color: #555;
+	}
+	
+	p {
+		font-size: 1.125rem;
+		line-height: 1.6;
+		margin: 1rem 0;
+	}
+</style>

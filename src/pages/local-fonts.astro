@@ -1,0 +1,141 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { font } from 'astro:font';
+
+// Local font - single weight
+const ubuntuRegular = font({
+	family: 'Ubuntu Local',
+	src: '/fonts/Ubuntu-Regular.ttf',
+	weight: 400,
+	style: 'normal',
+});
+
+// Local font - bold weight
+const ubuntuBold = font({
+	family: 'Ubuntu Local',
+	src: '/fonts/Ubuntu-Bold.ttf',
+	weight: 700,
+	style: 'normal',
+});
+---
+
+<Layout title="Local Fonts - Astro Font API">
+	<main>
+		<a href="/" class="back-link">← Back to Home</a>
+		
+		<h1>Local Fonts Examples</h1>
+		
+		<section>
+			<h2>Ubuntu Font (Self-hosted)</h2>
+			<p>
+				Hosting fonts locally gives you full control and ensures fonts load
+				even when CDNs are unavailable. Great for privacy and performance.
+			</p>
+			
+			<div class:list={[ubuntuRegular.class]}>
+				<h3 style="font-weight: 400;">Regular Weight (400)</h3>
+				<p>
+					This text uses the Ubuntu font loaded from the local /public/fonts directory.
+					No external requests to Google Fonts or other CDNs!
+				</p>
+			</div>
+			
+			<div class:list={[ubuntuBold.class]}>
+				<h3 style="font-weight: 700;">Bold Weight (700)</h3>
+				<p style="font-weight: 700;">
+					Same font family, bold weight variant.
+					The Font API handles @font-face declarations automatically.
+				</p>
+			</div>
+		</section>
+		
+		<section>
+			<h2>Benefits of Local Fonts</h2>
+			<ul class:list={[ubuntuRegular.class]}>
+				<li>✅ Full control over font files</li>
+				<li>✅ No external dependencies</li>
+				<li>✅ Better privacy (no tracking)</li>
+				<li>✅ Works offline</li>
+				<li>✅ Guaranteed availability</li>
+				<li>✅ Can subset fonts for your specific needs</li>
+			</ul>
+		</section>
+		
+		<section>
+			<h2>Usage Pattern</h2>
+			<pre><code>import &#123; font &#125; from 'astro:font';
+
+const myFont = font(&#123;
+  family: 'Ubuntu Local',
+  src: '/fonts/Ubuntu-Regular.ttf',
+  weight: 400,
+  style: 'normal',
+&#125;);
+
+// Then use with:
+&lt;p class:list=&#123;[myFont.class]&#125;&gt;Text&lt;/p&gt;</code></pre>
+		</section>
+	</main>
+</Layout>
+
+<style>
+	main {
+		max-width: 800px;
+		margin: 0 auto;
+		padding: 2rem;
+	}
+	
+	.back-link {
+		display: inline-block;
+		margin-bottom: 2rem;
+		color: #0066cc;
+		text-decoration: none;
+	}
+	
+	section {
+		margin: 3rem 0;
+		padding: 2rem;
+		background: #f9f9f9;
+		border-radius: 0.5rem;
+	}
+	
+	h1 {
+		font-size: 2.5rem;
+		margin-bottom: 2rem;
+	}
+	
+	h2 {
+		font-size: 1.5rem;
+		margin-bottom: 1rem;
+		color: #555;
+	}
+	
+	h3 {
+		font-size: 1.25rem;
+		margin: 1.5rem 0 1rem;
+	}
+	
+	p, li {
+		font-size: 1.125rem;
+		line-height: 1.6;
+		margin: 1rem 0;
+	}
+	
+	ul {
+		list-style-position: inside;
+	}
+	
+	pre {
+		background: #2d2d2d;
+		color: #f8f8f2;
+		padding: 1.5rem;
+		border-radius: 0.5rem;
+		overflow-x: auto;
+		font-size: 0.875rem;
+		line-height: 1.5;
+	}
+	
+	code {
+		font-family: 'Courier New', monospace;
+	}
+</style>
